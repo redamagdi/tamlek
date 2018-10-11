@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateFeatureNamesTable extends Migration
+class CreateAddToproperityTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,8 @@ class CreateFeatureNamesTable extends Migration
      */
     public function up()
     {
-        Schema::create('feature_names', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name');
-            $table->string('lang');
-            $table->timestamps();
+        Schema::table('properties', function (Blueprint $table) {
+            $table->boolean('propertystat')->default(0);
         });
     }
 
@@ -28,6 +25,6 @@ class CreateFeatureNamesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('feature_names');
+        Schema::table('properties');
     }
 }

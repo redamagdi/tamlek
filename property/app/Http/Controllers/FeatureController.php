@@ -31,19 +31,25 @@ class FeatureController extends Controller
    */
   public function store(FatureRequest $request)
   {
-      $feature=new Feature;
+    // dd($request->all());
+      
+      $feature=new Feature();
       $feature->save();
+
       $featureId=$feature->id;
-      $featureName=new FeatureName;
+
+      $featureName=new FeatureName();
       $featureName->name=$request->nameEn;
       $featureName->lang="en";
       $featureName->feature_id=$featureId;
       $featureName->save();
-      $featureName=new FeatureName;
+      
+      $featureName=new FeatureName();
       $featureName->name=$request->nameAr;
       $featureName->lang="ar";
       $featureName->feature_id=$featureId;
       $featureName->save();
+      
       return redirect()->route('feature.index');
   }
 

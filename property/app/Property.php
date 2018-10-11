@@ -44,8 +44,12 @@ class Property extends Model
   {
     return $this->belongsTo('App\Region');
   }
+  public function typeproperity()
+  {
+    return $this->belongsTo('App\Type','type_id','id');
+  }
   public function images()
   {
-    return $this->hasMany('App\PropertyImage');
+    return $this->hasMany('App\PropertyImage','property_id','id');
   }
 }

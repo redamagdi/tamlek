@@ -15,7 +15,7 @@ class Type extends Model
     {
         $language = App::getLocale();
     }
-    return $this->hasMany('App\TypeName')->where('lang', '=', $language);
+    return $this->hasMany('App\TypeName','type_id','id')->where('lang', '=', $language);
   }
 
 }

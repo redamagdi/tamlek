@@ -11,4 +11,9 @@ class City extends Model
   {
     return $this->belongsTo('App\Country');
   }
+
+  function regions()
+  {
+    return $this->hasMany('App\Region','city_id','id');
+  }
 }
