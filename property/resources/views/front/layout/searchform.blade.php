@@ -17,16 +17,26 @@
                         <div class="block d-flex space1">
                             <select multiple name="citiesandregions[]" id="e1" class="form-control heit  rr " id="search"
                                 placeholder="City or Town or District ">
+                                <?php $selectedcity = ""; $selectedregion = "";?>
                                 @foreach($cities as $city)
-                                <option value=" {{$city['id']}}|1">{{ $city['name'] }}
+                                  
+                                  @if( in_array($city['id'] , $citysearchinput ) )
+                                    <?php $selectedcity = "selected";  ?>
+                                  @endif
+                                <option {{ $selectedcity }} value=" {{$city['id']}}|1">{{ $city['name'] }}
                                 </option>
 
                                   @foreach($city->regions as $region )
 
-                                    <option value=" {{$region['id']}}|0">{{ $region['name'] }}
+                                    @if( in_array($region['id'] , $regoinsearchinput ) )
+                                    <?php $selectedregion = "selected";  ?>
+                                    @endif
+                                    <option {{ $selectedregion }} value=" {{$region['id']}}|0">{{ $region['name'] }}
                                    </option>
-
+                                   <?php $selectedregion = "";?>
                                   @endforeach
+                                   <?php $selectedcity = "";?>
+
                                 @endforeach
                                 
                             </select>
@@ -56,9 +66,18 @@
                         <div class="form-group ">
                             <select class="form-control" name="properitytype_id">
                                 
-                                <option value="" selected>Property Type</option>
+                                <option value="">Property Type</option>
+                                <?php $selected = ""; ?>
+
                                 @foreach($propertytypes as $protype)
-                                  <option value="{{ $protype['id'] }}">{{ $protype->name->first()->name }}</option>
+                                @if(isset($allinfo['properitytype_id']))
+
+                                  @if( $protype['id'] == $allinfo['properitytype_id'])
+                                  <?php $selected = "selected"; ?>
+                                  @endif
+                                 @endif 
+                                  <option @if(isset($allinfo['properitytype_id'])) {{ $selected }} @endif value="{{ $protype['id'] }}">{{ $protype->name->first()->name }}</option>
+                                <?php $selected = ""; ?>
                                 @endforeach
                                     
                             </select>
@@ -69,9 +88,22 @@
                         <div class="form-group ">
                             <select id="inputState" class="form-control" name="propertystat">
                                 <option value="">Select Properity State </option>
-                                <option value="0">Under construction
+                            @if(isset($allinfo['propertystat'])) 
+                                @if( ($allinfo['propertystat'] == 0) &&($allinfo['propertystat'] != null ) )
+                                <?php 
+                                      $underconst = "selected";
+                                      $ready = "";
+                                ?>
+                                @elseif($allinfo['propertystat'] == 1)
+                                <?php 
+                                      $underconst = "";
+                                      $ready = "selected";
+                                ?>
+                                @endif
+                            @endif
+                                <option @if(isset($allinfo['propertystat'])) @if(isset($underconst)) {{ $underconst }} @endif @endif value="0">Under construction
                                 </option>
-                                <option value="1">Ready</option>
+                                <option @if(isset($allinfo['propertystat'])) @if(isset($ready)) {{ $ready }} @endif @endif value="1">Ready</option>
 
                             </select>
                         </div>
@@ -81,26 +113,32 @@
                     <div class="col-md-2 col-sm-6 col-xs-6">
                         <div class="form-group ">
                             <select id="inputState" name="minprice" class="form-control">
-                                <option selected value="">Min. Price</option>
-                                <option value="100">100K</option>
-                                <option value="200">200K</option>
-                                <option value="300">300k</option>
-                                <option value="400">400k</option>
-                                <option value="500">500k</option>
-                                <option value="750">750k</option>
+                                <option value="">Min. Price</option>
+                              <?php $selectedd = ""; ?>  
+                             @for($i = $minmumprice;$i <= $maxmumprice; $i++)
+                              @if( (isset($allinfo['minprice'])) && ($allinfo['minprice'] == $i) )
+                              <?php $selectedd = "selected"; ?>
+                              @endif
+
+                                <option @if(isset($allinfo['minprice'])) {{ $selectedd }} @endif value="{{ $i }}">{{ $i }}K</option>
+                              <?php $selectedd = ""; ?>
+                             @endfor   
                             </select>
                         </div>
                     </div>
                     <div class="col-md-2 col-sm-6 col-xs-6 ">
                         <div class="form-group ">
                             <select name="maxprice" id="inputState" class="form-control">
-                                <option selected value="">Max. Price</option>
-                                <option value="100">100K</option>
-                                <option value="200">200K</option>
-                                <option value="300">300k</option>
-                                <option value="400">400k</option>
-                                <option value="500">500k</option>
-                                <option value="750">750k</option>
+                                <option value="">Max. Price</option>
+                                <?php $selectedd = ""; ?>  
+                             @for($i = $minmumprice;$i <= $maxmumprice; $i++)
+                              @if( (isset($allinfo['maxprice'])) && ($allinfo['maxprice'] == $i) )
+                              <?php $selectedd = "selected"; ?>
+                              @endif
+
+                                <option @if(isset($allinfo['maxprice'])) {{ $selectedd }} @endif value="{{ $i }}">{{ $i }}K</option>
+                              <?php $selectedd = ""; ?>
+                             @endfor
                             </select>
                         </div>
                     </div>
@@ -108,50 +146,62 @@
                     <div class="col-md-2 col-sm-6 col-xs-6 ">
                         <div class="form-group ">
                             <select name="minbed" id="inputState" class="form-control">
-                                <option selected value="">Min. bed</option>
-                                <option value="1">1 Bedroom</option>
-                                <option value="2">2 Bedroom</option>
-                                <option value="3">3 Bedroom</option>
-                                <option value="4">4 Bedroom</option>
-                                <option value="5">5 Bedroom</option>
+                                <option value="">Min. Bedroom</option>
+                                
+                                <?php $selectedd = ""; ?>  
+                             @for($i = $minmumbed;$i <= $maxmumbed; $i++)
+                          @if( (isset($allinfo['minbed'])) && ($allinfo['minbed'] == $i) )
+                              <?php $selectedd = "selected"; ?>
+                              @endif
+
+                                <option @if(isset($allinfo['minbed'])) {{ $selectedd }} @endif value="{{ $i }}">{{ $i }} Bedroom</option>
+                              <?php $selectedd = ""; ?>
+                             @endfor
                             </select>
                         </div>
                     </div>
                     <div class="col-md-3 col-sm-6 col-xs-6 ">
                         <div class="form-group ">
                             <select name="maxbed" id="inputState" class="form-control">
-                                <option selected value="">Max. bed</option>
-                                <option value="1">1 Bedroom</option>
-                                <option value="2">2 Bedroom</option>
-                                <option value="3">3 Bedroom</option>
-                                <option value="4">4 Bedroom</option>
-                                <option value="5">5 Bedroom</option>
+                                <option value="">Max. Bedroom</option>
+                                <?php $selectedd = ""; ?>  
+                             @for($i = $minmumbed;$i <= $maxmumbed; $i++)
+                          @if( (isset($allinfo['maxbed'])) && ($allinfo['maxbed'] == $i) )
+                              <?php $selectedd = "selected"; ?>
+                              @endif
+
+                                <option @if(isset($allinfo['maxbed'])) {{ $selectedd }} @endif value="{{ $i }}">{{ $i }} Bedroom</option>
+                              <?php $selectedd = ""; ?>
+                             @endfor
                             </select>
                         </div>
                     </div>
                     <div class="col-md-3   ">
                         <div class="form-group ">
                             <select name="maxarea" id="inputState" class="form-control">
-                                <option selected value="">Max. area</option>
-                                <option value="50">50 Sqm</option>
-                                <option value="100"> 100 Sqm</option>
-                                <option value="200">200 Sqm</option>
-                                <option value="300">300 Sqm</option>
-                                <option value="400">400 Sqm</option>
-                                <option value="500">500 Sqm</option>
+                                <option value="">Max. area</option>
+
+                                <?php $selectedd = ""; ?>  
+                             @for($i = $minmumarea;$i <= $maxmumarea; $i++)
+                          @if( (isset($allinfo['maxarea'])) && ($allinfo['maxarea'] == $i) )
+                              <?php $selectedd = "selected"; ?>
+                              @endif
+
+                                <option @if(isset($allinfo['maxarea'])) {{ $selectedd }} @endif value="{{ $i }}">{{ $i }} Sqm</option>
+                              <?php $selectedd = ""; ?>
+                             @endfor
                             </select>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group ">
-                            <input type="text" class="form-control heit  " name="keyword" id="search" placeholder="Key word ">
+                            <input type="text" class="form-control heit  " name="keyword" id="search" @if(isset($allinfo['keyword'])) value="{{ $allinfo['keyword'] }}" @endif placeholder="Key word ">
                         </div>
                     </div>
 
                 </div>
             </div>
         </div>
-
     </div>
     </div>
     </div>

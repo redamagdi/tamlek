@@ -17,14 +17,27 @@ class home extends Controller
      */
     public function index()
     {
-        $cities        =  City::all();
-        $propertytypes =  Type::all();
-        return View('front.index',compact('cities','propertytypes'));
+        $cities              =  City::all();
+        $propertytypes       =  Type::all();
+        $regoinsearchinput[] = 0;
+        $citysearchinput[]   = 0;
+        $allinfo             = "";
+        $maxmumbed   = Property::max('room');
+        $minmumbed   = Property::min('room');
+        $maxmumarea  = Property::max('area');
+        $minmumarea  = Property::min('area');
+        $maxmumprice = Property::max('cost');
+        $minmumprice = Property::min('cost');
+        
+        return View('front.index',compact('cities','propertytypes','regoinsearchinput','citysearchinput','allinfo','maxmumbed','minmumbed','maxmumarea','minmumarea','maxmumprice','minmumprice'));
     }
 
     
     public function searchproperty(Request $request)
     {
+        $regoinsearchinput[] = 0;
+        $citysearchinput[] = 0;
+        
         
         $builder = Property::query();
         $allinfo = $request->all();
@@ -39,13 +52,16 @@ class home extends Controller
             $result_explode = explode('|', $result);
             if($result_explode[1] == 0 ){
                   // regoin
-              $regoinid[] = $result_explode[0];
+              $regoinid[]          = $result_explode[0];
+              $regoinsearchinput[] = $result_explode[0];
+
             }
             if($result_explode[1] == 1 ){
                   // city
                 $city = City::find($result_explode[0]);
                 // $searchCities->make($city);
                 $searchCities->push($city);
+                $citysearchinput[] = $result_explode[0];
 
                 foreach($city->regions as $regoin){
                   $regoinid[] = $regoin['id'];
@@ -132,8 +148,15 @@ class home extends Controller
      $properties    = $builder->paginate(20);
      $cities        =  City::all();
      $propertytypes =  Type::all();
-     $recomendedprt =  Property::where('recommend','=','1')->paginate(2);
-        return View('front.searchresualt',compact('cities','propertytypes','properties','searchCities','recomendedprt'));
+     $vipproperty =  Property::where('type','=','2')->paginate(2);
+
+     $maxmumbed   = Property::max('room');
+     $minmumbed   = Property::min('room');
+     $maxmumarea  = Property::max('area');
+     $minmumarea  = Property::min('area');
+     $maxmumprice = Property::max('cost');
+     $minmumprice = Property::min('cost');
+        return View('front.searchresualt',compact('cities','propertytypes','properties','searchCities','vipproperty','regoinsearchinput','citysearchinput','allinfo','maxmumbed','minmumbed','maxmumarea','minmumarea','maxmumprice','minmumprice'));
     }
 
     /**
@@ -141,9 +164,8 @@ class home extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function sortedby($flag , $allinfo)
     {
-        //
     }
 
     /**

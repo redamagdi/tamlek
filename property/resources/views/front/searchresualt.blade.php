@@ -74,17 +74,17 @@
     <div class="  card-deck mb-3 text-center">
          
          <!-- card of recomended -->
-     @foreach($recomendedprt as $recomendedprop)
+     @foreach($vipproperty as $vipr)
       <div class="card mb-4 box-shadow ">
         <div class="card-body" id="card">
-            <img class="card-img-top" src="{{ asset($recomendedprop->images->first()['path']) }}" style="height: 348px; width: 515px;" alt="Card image cap">
-            <p class="card-title mt-1">{{ $recomendedprop->header->first()['name'] }}</p>
+            <img class="card-img-top" src="{{ asset($vipr->images->first()['path']) }}" style="height: 348px; width: 515px;" alt="Card image cap">
+            <p class="card-title mt-1">{{ $vipr->header->first()['name'] }}</p>
         </div>
 
         <div class="card-footer text-primary ">
-            <span > <i class="fas fa-bed"></i> Beds : <strong>3</strong></span>
-            <span> <i class="fas fa-shower"></i> Baths : <strong>{{ $recomendedprop['room'] }}</strong></span>
-            <span> <i class="fas fa-map-marker-alt"></i> Area : <strong>{{ $recomendedprop['area'] }}</strong></span>
+            <span > <i class="fas fa-bed"></i> Beds : <strong>{{ $vipr['room'] }}</strong></span>
+            <span> <i class="fas fa-shower"></i> Baths : <strong>{{ $vipr['bathroom'] }}</strong></span>
+            <span> <i class="fas fa-map-marker-alt"></i> Area : <strong>{{ $vipr['area'] }}</strong></span>
         </div>
       </div>
     @endforeach
