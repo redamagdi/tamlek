@@ -12,7 +12,9 @@
 
   Route::get('front/home', 'front\\home@index');
   Route::post('front/searchaboutproperty', 'front\\home@searchproperty')->name('search.property');
-  Route::get('front/sortedby/{flag}/{allinfo}', 'front\\home@sortedby')->name('sortedby');
+  Route::get('front/single/properity/{proprity}', 'front\\home@single')->name('properity.single');
+
+  Route::post('front/sortedby/{flag}', 'front\\home@sortedby')->name('sortedby');
 
 
 Auth::routes();

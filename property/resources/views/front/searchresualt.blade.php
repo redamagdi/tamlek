@@ -33,6 +33,27 @@
   </div>
  </div>
 @endif
+
+@if($typscounts->count() > 0)   
+ <div class="container">
+  <div class="col-sm-12 search-result my-3">
+   <div class="flex-row  d-flex justify-content-around p-3  ">
+    @foreach($typscounts as $typco)
+        <div class="">
+          <?php
+
+            $typename = App\TypeName::where('type_id','=',$typco->type_id)->first();
+          ?>
+         <a href=""> <span>{{ $typename['name'] }} </span> <span>{{ $typco->total }}</span> </a>
+         <div >
+         </div>
+        </div>
+    @endforeach
+   </div>     
+  </div>
+ </div>
+@endif
+
      <!-- End of regions properties counters -->
        
  <div class="container ">
@@ -54,11 +75,126 @@
         <i class="mdi mdi-filter"></i> Sort by 
         </button>
         <div class="dropdown-menu float-right" aria-labelledby="dropdownMenuButton">
-        <a class="dropdown-item" href="#"><i class="mdi mdi-chevron-right"></i> Popularity </a>
-        <a class="dropdown-item" href="#"><i class="mdi mdi-chevron-right"></i> New </a>
-        <a class="dropdown-item" href="#"><i class="mdi mdi-chevron-right"></i> Discount </a>
-        <a class="dropdown-item" href="#"><i class="mdi mdi-chevron-right"></i> Price: Low to High </a>
-        <a class="dropdown-item" href="#"><i class="mdi mdi-chevron-right"></i> Price: High to Low </a>
+        <form action="{{ route('sortedby',1) }}" method="POST">
+          {{ csrf_field() }}
+        <input type="hidden" name="properitytype_id" value="{{ $allinfo['properitytype_id'] }}">
+
+        <input type="hidden" name="propertystat" value="{{ $allinfo['propertystat'] }}">
+
+        <input type="hidden" name="minprice" value="{{ $allinfo['minprice'] }}">
+
+        <input type="hidden" name="maxprice" value="{{ $allinfo['maxprice'] }}">
+
+        <input type="hidden" name="minbed" value="{{ $allinfo['minbed'] }}">
+
+        <input type="hidden" name="maxbed" value="{{ $allinfo['maxbed'] }}">
+
+        <input type="hidden" name="maxarea" value="{{ $allinfo['maxarea'] }}">
+
+        <input type="hidden" name="keyword" value="{{ $allinfo['keyword'] }}">
+
+        @if(isset($allinfo['citiesandregions']))
+         <select style="display: none;" multiple name="citiesandregions[]">
+          <?php $i=0;?>
+          @foreach($allinfo['citiesandregions'] as $citre)
+          <option style="display: none" selected value="{{ $citre }}">{{ $citre }}</option>
+          <?php $i=$i+1;?>
+          @endforeach
+          </select>
+        @endif
+        <button class="dropdown-item"><i class="mdi mdi-chevron-right"></i> Popularity </botton>
+        </form>
+        
+        <form action="{{ route('sortedby',2) }}" method="POST">
+          {{ csrf_field() }}
+        <input type="hidden" name="properitytype_id" value="{{ $allinfo['properitytype_id'] }}">
+
+        <input type="hidden" name="propertystat" value="{{ $allinfo['propertystat'] }}">
+
+        <input type="hidden" name="minprice" value="{{ $allinfo['minprice'] }}">
+
+        <input type="hidden" name="maxprice" value="{{ $allinfo['maxprice'] }}">
+
+        <input type="hidden" name="minbed" value="{{ $allinfo['minbed'] }}">
+
+        <input type="hidden" name="maxbed" value="{{ $allinfo['maxbed'] }}">
+
+        <input type="hidden" name="maxarea" value="{{ $allinfo['maxarea'] }}">
+
+        <input type="hidden" name="keyword" value="{{ $allinfo['keyword'] }}">
+
+        @if(isset($allinfo['citiesandregions']))
+         <select style="display: none;" multiple name="citiesandregions[]">
+          <?php $i=0;?>
+          @foreach($allinfo['citiesandregions'] as $citre)
+          <option style="display: none" selected value="{{ $citre }}">{{ $citre }}</option>
+          <?php $i=$i+1;?>
+          @endforeach
+          </select>
+        @endif
+        <button class="dropdown-item"><i class="mdi mdi-chevron-right"></i> New </botton>
+        </form>
+
+        <form action="{{ route('sortedby',3) }}" method="POST">
+          {{ csrf_field() }}
+        <input type="hidden" name="properitytype_id" value="{{ $allinfo['properitytype_id'] }}">
+
+        <input type="hidden" name="propertystat" value="{{ $allinfo['propertystat'] }}">
+
+        <input type="hidden" name="minprice" value="{{ $allinfo['minprice'] }}">
+
+        <input type="hidden" name="maxprice" value="{{ $allinfo['maxprice'] }}">
+
+        <input type="hidden" name="minbed" value="{{ $allinfo['minbed'] }}">
+
+        <input type="hidden" name="maxbed" value="{{ $allinfo['maxbed'] }}">
+
+        <input type="hidden" name="maxarea" value="{{ $allinfo['maxarea'] }}">
+
+        <input type="hidden" name="keyword" value="{{ $allinfo['keyword'] }}">
+
+        @if(isset($allinfo['citiesandregions']))
+         <select style="display: none;" multiple name="citiesandregions[]">
+          <?php $i=0;?>
+          @foreach($allinfo['citiesandregions'] as $citre)
+          <option style="display: none" selected value="{{ $citre }}">{{ $citre }}</option>
+          <?php $i=$i+1;?>
+          @endforeach
+          </select>
+        @endif
+        <button class="dropdown-item"><i class="mdi mdi-chevron-right"></i> Price: Low to High </botton>
+        </form>
+
+        <form action="{{ route('sortedby',4) }}" method="POST">
+          {{ csrf_field() }}
+        <input type="hidden" name="properitytype_id" value="{{ $allinfo['properitytype_id'] }}">
+
+        <input type="hidden" name="propertystat" value="{{ $allinfo['propertystat'] }}">
+
+        <input type="hidden" name="minprice" value="{{ $allinfo['minprice'] }}">
+
+        <input type="hidden" name="maxprice" value="{{ $allinfo['maxprice'] }}">
+
+        <input type="hidden" name="minbed" value="{{ $allinfo['minbed'] }}">
+
+        <input type="hidden" name="maxbed" value="{{ $allinfo['maxbed'] }}">
+
+        <input type="hidden" name="maxarea" value="{{ $allinfo['maxarea'] }}">
+
+        <input type="hidden" name="keyword" value="{{ $allinfo['keyword'] }}">
+
+        @if(isset($allinfo['citiesandregions']))
+         <select style="display: none;" multiple name="citiesandregions[]">
+          <?php $i=0;?>
+          @foreach($allinfo['citiesandregions'] as $citre)
+          <option style="display: none" selected value="{{ $citre }}">{{ $citre }}</option>
+          <?php $i=$i+1;?>
+          @endforeach
+          </select>
+        @endif
+        <button class="dropdown-item"><i class="mdi mdi-chevron-right"></i> Price: High to Low </botton>
+        </form>
+
         </div>
         </div>
         </div>
@@ -101,7 +237,7 @@
  @foreach($properties as $properity) 
    <div class="col-lg-12 col-md-8  wow zoomIn">
      <div class="card card-list card-list-view">
-      <a href="#">
+      <a href="{{ route('properity.single',$properity['id']) }}">
        <div class="row no-gutters">
 
         <div class="col-lg-5 col-md-5">					 
@@ -143,7 +279,6 @@
  @endif                               
 <nav class="mt-5">
 <ul class="pagination justify-content-center">
-
  {{ $properties->links() }}
 
 </ul>
