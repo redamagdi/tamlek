@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\front;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 use App\Http\Controllers\Controller;
 use App\City;
 use App\Type;
@@ -34,14 +35,25 @@ class home extends Controller
     }
 
     
-    public function searchproperty(Request $request)
+    public function searchproperty()
     {
+        
         $regoinsearchinput[] = 0;
         $citysearchinput[] = 0;
         
-        
         $builder = Property::query();
-        $allinfo = $request->all();
+        //$allinfo = $request->all();
+        $allinfo['properitytype_id'] = Input::get('properitytype_id');
+
+        $allinfo['citiesandregions'] = Input::get('citiesandregions');
+        $allinfo['propertystat'] = Input::get('propertystat');
+        $allinfo['minprice'] = Input::get('minprice');
+        $allinfo['maxprice'] = Input::get('maxprice');
+        $allinfo['minbed'] = Input::get('minbed');
+        $allinfo['maxbed'] = Input::get('maxbed');
+        $allinfo['maxarea'] = Input::get('maxarea');
+        $allinfo['keyword'] = Input::get('keyword');
+
 /**************** cites and regoins **********/ 
          $searchCities   = collect();
          $regoinflagtest = 0;
@@ -150,7 +162,8 @@ class home extends Controller
             $builder->whereIn('id',$prodids);
         }
 
-     $properties    = $builder->orderBy('type', 'DESC')->get();
+     $properties    = $builder->orderBy('type', 'DESC')->paginate(10)->setpath('');
+     $properties->appends($allinfo);
      $cities        =  City::all();
      $propertytypes =  Type::all();
      $vipproperty =  $builder->where('type','=','2')->paginate(2);
@@ -181,7 +194,7 @@ class home extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function sortedby(Request $request , $flag)
+    public function sortedby($flag)
     {
 
         $regoinsearchinput[] = 0;
@@ -189,7 +202,16 @@ class home extends Controller
         
         
         $builder = Property::query();
-        $allinfo = $request->all();
+        $allinfo['properitytype_id'] = Input::get('properitytype_id');
+
+        $allinfo['citiesandregions'] = Input::get('citiesandregions');
+        $allinfo['propertystat'] = Input::get('propertystat');
+        $allinfo['minprice'] = Input::get('minprice');
+        $allinfo['maxprice'] = Input::get('maxprice');
+        $allinfo['minbed'] = Input::get('minbed');
+        $allinfo['maxbed'] = Input::get('maxbed');
+        $allinfo['maxarea'] = Input::get('maxarea');
+        $allinfo['keyword'] = Input::get('keyword');
 /**************** cites and regoins **********/ 
          $searchCities   = collect();
          $regoinflagtest = 0;
@@ -313,7 +335,8 @@ class home extends Controller
       $builder->orderBy('cost', 'DESC'); 
      }
 
-     $properties    = $builder->orderBy('type', 'DESC')->get();
+     $properties    = $builder->orderBy('type', 'DESC')->paginate(10)->setpath('');
+     $properties->appends($allinfo);;
 
      $cities        =  City::all();
      $propertytypes =  Type::all();

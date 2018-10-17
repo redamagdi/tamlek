@@ -279,7 +279,7 @@
  @endif                            
 <nav class="mt-5">
 <ul class="pagination justify-content-center">
-
+  {!! $properties->render() !!}
 </ul>
 </nav>
 
