@@ -150,7 +150,7 @@ class home extends Controller
             $builder->whereIn('id',$prodids);
         }
 
-     $properties    = $builder->orderBy('type', 'DESC')->paginate(1);
+     $properties    = $builder->orderBy('type', 'DESC')->get();
      $cities        =  City::all();
      $propertytypes =  Type::all();
      $vipproperty =  $builder->where('type','=','2')->paginate(2);
@@ -313,7 +313,7 @@ class home extends Controller
       $builder->orderBy('cost', 'DESC'); 
      }
 
-     $properties    = $builder->orderBy('type', 'DESC')->paginate(1);
+     $properties    = $builder->orderBy('type', 'DESC')->get();
 
      $cities        =  City::all();
      $propertytypes =  Type::all();

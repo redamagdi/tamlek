@@ -276,10 +276,9 @@
  @endforeach
  @else
    <h3 class="text-center" style="margin-left: 50px;"> No Resualts !! </h3>
- @endif                               
+ @endif                            
 <nav class="mt-5">
 <ul class="pagination justify-content-center">
- {{ $properties->links() }}
 
 </ul>
 </nav>
